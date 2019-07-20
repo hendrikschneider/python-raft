@@ -17,10 +17,10 @@ python draft_client.py --listen 127.0.0.1:8009
 Open three consoles, activate the venv and run the client on a different port
 
 ### Terminal one
-python draft_client.py --listen 127.0.0.1:8007
+python raft.py --listen 127.0.0.1:8007
 
 ### Terminal two
-python draft_client.py --listen 127.0.0.1:8008
+python raft.py --listen 127.0.0.1:8008
 
 ### Terminal three
-python draft_client.py --listen 127.0.0.1:8009
+python raft.py --listen 127.0.0.1:8009
