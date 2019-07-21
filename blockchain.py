@@ -5,6 +5,7 @@ import datetime, time, uuid
 import json
 import os
 
+
 class Blockchain(object):
     def __init__(self, storage_path):
         self._chain = []
@@ -15,8 +16,15 @@ class Blockchain(object):
         self.storage_path = storage_path
 
     @property
+    def length(self):
+        return len(self._chain)
+
+    @property
     def get_chain(self):
         return [vars(block) for block in self._chain]
+
+    def get_block(self, i):
+        return self._chain[i]
 
     def generateGenesisBlock(self):
         transaction_0 = Transaction('Root', self.get_time(), '0', 'Genesis Block')
@@ -54,7 +62,7 @@ class Blockchain(object):
         # message = " Passing some data : " + str(index)
         # self.pending_transactions.append(message)
         block = Block(index, timestamp, self.pending_transactions, previousHash, self.nounce)
-        block.calculateHash() # proof_of_work(self._difficulty)
+        block.calculateHash()  # proof_of_work(self._difficulty)
         self.pending_transactions = []
         self._chain.append(block)
         return block
@@ -70,7 +78,7 @@ class Blockchain(object):
         elif previous_block.hash != current_block.previousHash:
             print("Failed to validate block, mismatch of current and previous hash\n")
             return False
-        #elif not current_block.is_proof_valid(difficulty):
+        # elif not current_block.is_proof_valid(difficulty):
         #    print("Failed to validate block, proof is invalid\n")
         #    return False
         # elif time.strptime(current_block.timestamp, "%d/%m/%Y") < time.strptime(previous_block.timestamp, "%d/%m/%Y"):
@@ -123,8 +131,7 @@ class Blockchain(object):
         if os.path.exists(self.storage_path):
             with open(self.storage_path, "r") as f:
                 json_chain = json.loads(f.read())
-                for json_block in json_chain:
-                    self.import_block(json_block)
+                self.import_chain_from_json(json_chain)
 
     def import_block(self, data):
         new_transaction = Transaction(data['pending_messages'][0]['user'], data['pending_messages'][0]['timestamp'],
@@ -132,12 +139,34 @@ class Blockchain(object):
         data['pending_messages'] = [new_transaction]
         self.add_block(Block(**data))
 
+    def import_chain_from_json(self, json_chain):
+        for json_block in json_chain:
+            self.import_block(json_block)
+
     def export_as_json(self):
+        """
+        Returns a json representation of the blockchain
+        :return:
+        """
         return json.dumps(self._chain, cls=MyJSONEncoder)
 
     def clear(self):
+        """
+        Resets the blockchain
+        :return:
+        """
         self._chain = []
 
+    def is_partial_blockchain(self, blockchain):
+        if self.length > blockchain.length:
+            raise Exception("Comparision failed. Passed blockchain cannot be longer than the current one.")
+        for i in range(0, self.length):
+            if self._chain[i].hash != blockchain.get_block(i).hash:
+                return False
+        return True
+
+    def import_blockchain_from_blockchain_obj(self, blockchain_obj):
+        self._chain = blockchain_obj._chain
     # def add_peer_node(self, address):
     #     self.nodes.add(address)
     #     return True

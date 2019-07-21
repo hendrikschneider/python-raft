@@ -6,6 +6,7 @@ import logging
 import random
 import websockets
 import queue
+import sys
 
 from datetime import datetime
 
@@ -45,6 +46,8 @@ class RaftServer():
     _connections_to_servers = {}
 
     connected_clients = set()
+    raft_nodes = set()
+    control_connection = set()
 
     def __init__(self, host, port):
         self.host = host
@@ -103,7 +106,7 @@ class RaftServer():
         """
         Manages raft stuff
         """
-        self.leader_rounds = 20
+        self.leader_rounds = 2000
         await asyncio.sleep(2)
         while True:
             # No leader and missing heartbeat -> start new election
@@ -144,7 +147,7 @@ class RaftServer():
         asyncio.ensure_future(self._ws_server, loop=asyncio.get_event_loop())
 
     async def force_clients_to_sync_with_me(self):
-        for ws in self.connected_clients:
+        for ws in self.raft_nodes:
             await self.sync_client(ws)
 
     async def client_recv_handler(self, connection):
@@ -171,8 +174,11 @@ class RaftServer():
                         "identifier": self.identifier
                     })
                     if first_election:
+                        # TODO: Negiate sync
+                        # Send length of chain and last block
+                        # If my chain is shorter, make sync
+                        # needs to be done by leader and follower
                         await self.force_clients_to_sync_with_me()
-
 
             elif message['type'] == 'heartbeat':
                 self._state = self.STATE_FOLLOWER
@@ -187,10 +193,34 @@ class RaftServer():
             elif message['type'] == 'sync':
                 logger.info("Sync in progress")
                 json_chain = json.loads(message['data'])
-                print(json_chain)
-                self.blockchain.clear()
-                for json_block in json_chain:
-                    self.blockchain.import_block(json_block)
+                blockchain_candidate = Blockchain(None)
+                blockchain_candidate.import_chain_from_json(json_chain)
+                print(blockchain_candidate)
+                if self.blockchain.is_empty():
+                    # Blockchain is empty -> Import existing one
+                    logger.info("Importing new blockchain")
+                    self.blockchain.import_blockchain_from_blockchain_obj(blockchain_candidate)
+                else:
+                    # Node was already part of a raft group with a blockchain
+                    # -> Verify that imported blockchain is extension of saved one
+
+                    # TOOD: What to do, if old chain is longer -> Force sync with me
+                    if blockchain_candidate.length >= self.blockchain.length:
+                        # Just try to import if longer
+                        if self.blockchain.is_partial_blockchain(blockchain_candidate):
+                            logger.info("Importing blockchain")
+                            self.blockchain.import_blockchain_from_blockchain_obj(blockchain_candidate)
+                        else:
+                            logger.error(
+                                "The loaded blockchain from does not belong to this network. Aborting!!!")
+                            # TODO: close connections
+                            # TODO: stop programm asyncio.get_event_loop().stop()
+                            sys.exit()
+                    else:
+                        logger.info("My blockchain is longer. Do not accept it.")
+                        await self.force_clients_to_sync_with_me()
+                    # self.blockchain.clear()
+
                 self.blockchain.save()
                 # sync is done
                 self._is_syncronizing = False
@@ -201,6 +231,7 @@ class RaftServer():
                 self._backlog.put(data)
                 if not self._is_syncronizing:
                     while not self._backlog.empty():
+                        print(self._backlog.qsize())
                         data = self._backlog.get()
                         new_transaction = Transaction(data['pending_messages'][0]['user'],
                                                       data['pending_messages'][0]['timestamp'],
@@ -223,6 +254,10 @@ class RaftServer():
                 connection = await ws.__aenter__()
                 self._connections_to_servers["{}:{}".format(*connection.remote_address)] = connection
                 asyncio.ensure_future(self.client_recv_handler(connection), loop=asyncio.get_event_loop())
+                await connection.send(json.dumps({
+                    'type': 'register',
+                    'data': 'node'
+                }))
             except:
                 logger.error("Connection failed: {}".format(uri))
 
@@ -277,6 +312,7 @@ class RaftServer():
                 try:
                     data = await websocket.recv()
                     message = json.loads(data)
+
                     await self.handle_message_exchange(message)
 
                     forwarded = message.get(self.FORWARDED_KEY, False)
@@ -285,6 +321,7 @@ class RaftServer():
                         continue
 
                     logger.info('Received message at server from {}:{} > {}'.format(*websocket.remote_address, message))
+
                     if message['type'] == 'vote' and message['term'] >= self._currentTerm:
                         self._state = self.STATE_FOLLOWER
                         self._leader = message['identifier']
@@ -306,11 +343,20 @@ class RaftServer():
                         self._currentTerm = message['term']
                         self._last_heartbeat = datetime.now()
 
+                    elif message['type'] == 'register':
+                        # TODO: register control connection in such a way that raft algo does not consider it a candidate
+                        if message['data'] == 'node':
+                            # append to node list -> node is part of raft
+                            self.raft_nodes.add(websocket)
+                        elif message['data'] == 'control':
+                            # append to control
+                            self.control_connection.add(websocket)
+
                     elif message['type'] == "add_node":
                         # add node and send to all others
-                        """
-                            {"address": "127.0.0.1:8009"}
-                        """
+                        # 
+                        #    {"address": "127.0.0.1:8009"}
+                        # 
                         if self._state != self.STATE_LEADER:
                             # send it to leader for distribution
                             await self.forward_to_leader(message)
@@ -326,7 +372,6 @@ class RaftServer():
                     elif message['type'] == 'commit':
                         if self._state != self.STATE_LEADER:
                             # send it to leader for distribution
-
                             await self.forward_to_leader(message)
                         else:
                             # I am leader -> mine -> broadcast
@@ -340,16 +385,30 @@ class RaftServer():
                             self.blockchain.add_transaction(data['message'], data['user'], data['session'])
                             self.blockchain.mine_block()
 
+                            # we need confirmation first
+                            self.blockchain.save()
+
                             await self.sync_last_block()
 
                     # print("My state", self._state)
                     # self.broadcast(message)
-                except:
-                    pass
+
+                except Exception as e:
+                    # logger.error(e)
+                    if websocket in self.connected_clients:
+                        self.connected_clients.remove(websocket)
+                    # pruefen, ob in sets vorhanden und dann er löschen
+                    # connected clients mit raft nodes ersetzen
+                    if websocket in self.raft_nodes:
+                        self.raft_nodes.remove(websocket)
+                    if websocket in self.control_connection:
+                        self.control_connection.remove(websocket)
+                    break
+                    # sys.exit()
                     # TODO: Error handling
         finally:
-            # Unregister.
-            self.connected_clients.remove(websocket)
+            if websocket in self.connected_clients:
+                self.connected_clients.remove(websocket)
 
     async def sync_last_block(self):
         await self.broadcast_to_clients({
@@ -368,12 +427,12 @@ class RaftServer():
         Broadcast a message to all connected clients.
         """
         message['term'] = self._currentTerm
-        if len(self.connected_clients):
-            for ws in self.connected_clients:
+        if len(self.raft_nodes):
+            for ws in self.raft_nodes:
                 try:
                     await ws.send(json.dumps(message))
-                except:
-                    pass
+                except Exception as e:
+                    logger.error("error while sending to client: {}".format(e))
             # await asyncio.wait([ws.send(json.dumps(message)) for ws in self.connected_clients])
 
     async def broadcast_to_servers(self, message):
