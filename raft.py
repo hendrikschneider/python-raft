@@ -150,8 +150,7 @@ class RaftServer(object):
             await asyncio.sleep(self.HEARTBEAT_INTERVAL)
 
     def heartbeat_timed_out(self):
-        return (
-                       datetime.now() - self._last_heartbeat).total_seconds() > self.HEARTBEAT_INTERVAL * 1.5
+        return (datetime.now() - self._last_heartbeat).total_seconds() > self.HEARTBEAT_INTERVAL * 1.5
 
     async def start_server(self):
         """
@@ -181,7 +180,6 @@ class RaftServer(object):
 
                 await self.handle_message_exchange(message, connection)
         except Exception as e:
-            # logger.error(e)
             pass
 
     async def connect_to_server(self, uri, handler):
