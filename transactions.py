@@ -1,3 +1,17 @@
+import json
+
+
+class Transaction(object):
+    def __init__(self, **kwargs):
+        self.kwargs = kwargs
+        # for k, v in kwargs:
+        #    setattr(self, k, v)
+
+    def __repr__(self):
+        return "<Transaction: {}>".format(json.dumps(self.kwargs))
+        # return "<Test user:%s timestamp:%s session:%s  message:%s>" % (self.user, self.timestamp, self.session, self.message)
+
+"""
 class Transaction(object):
     def __init__(self, user, timestamp, session, message):
         self._user = user
@@ -39,3 +53,4 @@ class Transaction(object):
 
     def __repr__(self):
         return "<Test user:%s timestamp:%s session:%s  message:%s>" % (self.user, self.timestamp, self.session, self.message)
+"""

@@ -27,7 +27,7 @@ class Blockchain(object):
         return self._chain[i]
 
     def generateGenesisBlock(self):
-        transaction_0 = Transaction('Root', self.get_time(), '0', 'Genesis Block')
+        transaction_0 = Transaction(type='Root', timestamp=self.get_time(), message='Genesis Block')
         local_transaction = [transaction_0]
         genesis = Block(0, self.get_time(), local_transaction, 0, 0)
         genesis.hash = '000'
@@ -41,10 +41,10 @@ class Blockchain(object):
         timestamp = datetime.datetime.now()
         return timestamp.microsecond
 
-    def add_transaction(self, message, user, session):
+    def add_transaction(self, *args, **kwargs):
         # Create a new transaction and append it to the list of all transactions
         timestamp = self.get_time()
-        transaction = Transaction(user, timestamp, session, message)
+        transaction = Transaction(timestamp=timestamp, **kwargs)
         self.pending_transactions.append(transaction)
 
     def mine_block(self):
@@ -134,8 +134,8 @@ class Blockchain(object):
                 self.import_chain_from_json(json_chain)
 
     def import_block(self, data):
-        new_transaction = Transaction(data['pending_messages'][0]['user'], data['pending_messages'][0]['timestamp'],
-                                      data['pending_messages'][0]['session'], data['pending_messages'][0]['message'])
+        pending_message = json.loads(data['pending_messages'][0])
+        new_transaction = Transaction(**pending_message)
         data['pending_messages'] = [new_transaction]
         self.add_block(Block(**data))
 
@@ -167,25 +167,6 @@ class Blockchain(object):
 
     def import_blockchain_from_blockchain_obj(self, blockchain_obj):
         self._chain = blockchain_obj._chain
-    # def add_peer_node(self, address):
-    #     self.nodes.add(address)
-    #     return True
-
-    # def get_block_object_from_block_data(self, block_data):
-    #     pass
 
     def __repr__(self):
         return "<chain:%s>\n" % (self._chain)
-
-# blockchain = Blockchain()
-
-# blockchain.add_transaction("popup_1","Grigor", 1)
-# blockchain.add_transaction("popup_2","Wladislav", 2)
-
-# blockchain.mine_block()
-# last_block = blockchain.last_block()
-
-# print(repr(last_block))
-
-# validate = blockchain.is_chain_valid()
-# print (validate)

@@ -1,6 +1,4 @@
 from hashlib import sha256
-import random, json
-
 
 class Block(object):
     def __init__(self, index, timestamp, pending_messages, previousHash, nounce, hash=None):
@@ -14,15 +12,6 @@ class Block(object):
         else:
             self.hash = hash
         self.index = self._index
-
-    """"@property
-    def index(self):
-        return self._index
-
-    @index.setter
-    def index(self, value):
-        self._index = value
-    """
 
     @property
     def timestamp(self):
@@ -86,15 +75,5 @@ class Block(object):
         print("\nfinal hash: " + str(self.hash) + "\n")
 
     def __repr__(self):
-        # pnd_msg = []
-        # for elem in self.pending_messages:
-        #     pnd_msg.append(elem.message)
-        return "<Test index:%s timestamp:%s pending_messages:%s previousHash:%s nounce:%s hash:%s>" % (
+        return "<Block index:%s timestamp:%s pending_messages:%s previousHash:%s nounce:%s hash:%s>" % (
         self.index, self.timestamp, self.pending_messages, self.previousHash, self.nounce, self.hash)
-
-    # def __str__(self):
-    #     return "From str method of Test: a is %s, b is %s" % (self.a, self.b)
-
-# block = Block(1, '01/01/2019', 'random message', '0')
-
-# print (repr(block))
