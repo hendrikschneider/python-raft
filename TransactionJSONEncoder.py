@@ -1,10 +1,9 @@
-from flask.json import JSONEncoder
 from transactions import Transaction
 from block import Block
 import json
 
 
-class MyJSONEncoder(JSONEncoder):
+class TransactionJSONEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, Transaction):
             return json.dumps(obj.kwargs)
@@ -17,4 +16,4 @@ class MyJSONEncoder(JSONEncoder):
                 'nounce': obj._nounce,
                 'hash': obj.hash
             }
-        return super(MyJSONEncoder, self).default(obj)
+        return super(TransactionJSONEncoder, self).default(obj)

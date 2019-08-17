@@ -1,6 +1,6 @@
 from block import Block
 from transactions import Transaction
-from myjsonencoder import MyJSONEncoder
+from TransactionJSONEncoder import TransactionJSONEncoder
 import datetime, time, uuid
 import json
 import os
@@ -148,7 +148,7 @@ class Blockchain(object):
         Returns a json representation of the blockchain
         :return:
         """
-        return json.dumps(self._chain, cls=MyJSONEncoder)
+        return json.dumps(self._chain, cls=TransactionJSONEncoder)
 
     def clear(self):
         """

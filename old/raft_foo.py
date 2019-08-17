@@ -13,7 +13,7 @@ from datetime import datetime
 from blockchain import Blockchain
 from transactions import Transaction
 from block import Block
-from myjsonencoder import MyJSONEncoder
+from TransactionJSONEncoder import TransactionJSONEncoder
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -302,10 +302,10 @@ class RaftServer(object):
         :return:
         """
         self.confirmed_commits[self._currentTerm] = set()
-        print(json.dumps(self.blockchain.last_block(), ensure_ascii=False, cls=MyJSONEncoder))
+        print(json.dumps(self.blockchain.last_block(), ensure_ascii=False, cls=TransactionJSONEncoder))
         await self.broadcast_to_clients({
             "type": "commit",
-            "data": json.dumps(self.blockchain.last_block(), ensure_ascii=False, cls=MyJSONEncoder),
+            "data": json.dumps(self.blockchain.last_block(), ensure_ascii=False, cls=TransactionJSONEncoder),
             "term": self._currentTerm,
             "uuid": message_uuid
         })

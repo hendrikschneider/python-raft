@@ -13,7 +13,7 @@ from datetime import datetime
 from blockchain import Blockchain
 from transactions import Transaction
 from block import Block
-from myjsonencoder import MyJSONEncoder
+from TransactionJSONEncoder import TransactionJSONEncoder
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -305,7 +305,7 @@ class RaftServer(object):
                                                      'data': self.blockchain.last_block().pending_messages[0]}
         await self.broadcast_to_clients({
             "type": "commit",
-            "data": json.dumps(self.blockchain.last_block(), ensure_ascii=False, cls=MyJSONEncoder),
+            "data": json.dumps(self.blockchain.last_block(), ensure_ascii=False, cls=TransactionJSONEncoder),
             "term": self._currentTerm,
             "uuid": message_uuid
         })
@@ -573,7 +573,8 @@ class RaftServer(object):
                 if len(self.confirmed_commits[term]['confirmations']) == len(self.raft_nodes):
                     # send confirm to control channel
 
-                    data = json.dumps(self.confirmed_commits[term]['data'], ensure_ascii=False, cls=MyJSONEncoder)
+                    data = json.dumps(self.confirmed_commits[term]['data'], ensure_ascii=False,
+                                      cls=TransactionJSONEncoder)
                     del self.confirmed_commits[term]
                     await self.broadcast_to_control_connections({
                         'type': 'commit_confirm',
@@ -629,6 +630,8 @@ nodes = [
     "127.0.0.1:8007",
     "127.0.0.1:8009",
     "127.0.0.1:8008",
+    "127.0.0.1:8010",
+    "127.0.0.1:8011",
 ]
 
 control_channels = [
