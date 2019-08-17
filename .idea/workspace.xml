@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ed346da0-0aec-4d9c-a6c3-f3a44d56773a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/block.py" beforeDir="false" afterPath="$PROJECT_DIR$/block.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blockchain.py" beforeDir="false" afterPath="$PROJECT_DIR$/blockchain.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myjsonencoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/myjsonencoder.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/raft.py" beforeDir="false" afterPath="$PROJECT_DIR$/raft.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/transactions.py" beforeDir="false" afterPath="$PROJECT_DIR$/transactions.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/raft.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="362" column="41" selection-start-line="362" selection-start-column="41" selection-end-line="362" selection-end-column="41" />
+            <state relative-caret-position="269">
+              <caret line="591" column="60" selection-start-line="591" selection-start-column="60" selection-end-line="591" selection-end-column="60" />
               <folding>
                 <element signature="e#21#45#0" expanded="true" />
               </folding>
@@ -30,10 +26,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/raft_foo.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="22" column="55" lean-forward="true" selection-end-line="644" />
+              <folding>
+                <element signature="e#0#24#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/blockchain.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="24" lean-forward="true" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
+            <state relative-caret-position="179">
+              <caret line="73" column="22" selection-start-line="73" selection-start-column="17" selection-end-line="73" selection-end-column="22" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -42,22 +50,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/myjsonencoder.py">
+        <entry file="file://$PROJECT_DIR$/block.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="20" lean-forward="true" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
-              <folding>
-                <element signature="e#0#34#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="224">
+              <caret line="61" column="22" selection-start-line="61" selection-start-column="17" selection-end-line="61" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/block.py">
+        <entry file="file://$PROJECT_DIR$/raft_old.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+            <state relative-caret-position="179">
+              <caret line="459" column="8" selection-start-line="459" selection-start-column="8" selection-end-line="459" selection-end-column="57" />
             </state>
           </provider>
         </entry>
@@ -74,35 +79,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/raft_old.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="174" column="16" selection-start-line="174" selection-start-column="16" selection-end-line="174" selection-end-column="76" />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>heart</find>
-      <find>messages</find>
-      <find>messages_to</find>
-      <find>messages_to_save</find>
-      <find>handler(</find>
-      <find>sync</find>
-      <find>def sync_la</find>
-      <find>sync_last</find>
-      <find>on_commit</find>
-      <find>handler(me</find>
-      <find>connection.recv</find>
-      <find>confirm</find>
-      <find>-confirm</find>
-      <find>def sync_l</find>
-      <find>uuid=</find>
-      <find>data =</find>
       <find>forward_to_leader</find>
       <find>**</find>
       <find>control_recv_handler</find>
@@ -112,11 +92,27 @@
       <find>commit-confirm</find>
       <find>on_conne</find>
       <find>broadcast</find>
-      <find>broadcast_to_clients</find>
       <find>start_ele</find>
       <find>on_vote</find>
       <find>connect_to_server</find>
       <find>on_hea</find>
+      <find>control</find>
+      <find>self.control_connection.add</find>
+      <find>confirm</find>
+      <find>broadcast_to_clients</find>
+      <find>-confirm</find>
+      <find>commit_messages_from_backlog</find>
+      <find>self.confirmed_commits[self._currentTerm] = set()</find>
+      <find>self.confirmed_commits</find>
+      <find>uuid=</find>
+      <find>blockchain is</find>
+      <find>broadca</find>
+      <find>sync</find>
+      <find>send con</find>
+      <find>sync_las</find>
+      <find>confirmed_commits</find>
+      <find>def sync_last</find>
+      <find>valid</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -126,9 +122,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/store_message.py" />
-        <option value="$PROJECT_DIR$/raft.py" />
         <option value="$PROJECT_DIR$/blockchain.py" />
         <option value="$PROJECT_DIR$/block.py" />
+        <option value="$PROJECT_DIR$/raft.py" />
       </list>
     </option>
   </component>
@@ -193,20 +189,21 @@
       <workItem from="1563614612370" duration="1938000" />
       <workItem from="1565804546173" duration="8228000" />
       <workItem from="1565860313199" duration="15641000" />
-      <workItem from="1565976221103" duration="18554000" />
+      <workItem from="1565976221103" duration="22574000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="44361000" />
+    <option name="totallyTimeSpent" value="48381000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="45" y="25" width="1875" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22963367" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22963367" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -218,7 +215,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49972662" weight="0.32937366" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.50136685" side_tool="true" visible="true" weight="0.32937366" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.50136685" side_tool="true" visible="true" weight="0.32937366" />
       <window_info anchor="bottom" id="Python Console" order="12" sideWeight="0.49863315" weight="0.32937366" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -245,10 +242,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/raft_old.py">
+    <entry file="file://$PROJECT_DIR$/myjsonencoder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="174" column="16" selection-start-line="174" selection-start-column="16" selection-end-line="174" selection-end-column="76" />
+        <state relative-caret-position="165">
+          <caret line="11" column="20" lean-forward="true" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -262,37 +262,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/block.py">
+    <entry file="file://$PROJECT_DIR$/raft_old.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        <state relative-caret-position="179">
+          <caret line="459" column="8" selection-start-line="459" selection-start-column="8" selection-end-line="459" selection-end-column="57" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/blockchain.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="24" lean-forward="true" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
+        <state relative-caret-position="179">
+          <caret line="73" column="22" selection-start-line="73" selection-start-column="17" selection-end-line="73" selection-end-column="22" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/myjsonencoder.py">
+    <entry file="file://$PROJECT_DIR$/raft_foo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="20" lean-forward="true" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
+        <state relative-caret-position="330">
+          <caret line="22" column="55" lean-forward="true" selection-end-line="644" />
           <folding>
-            <element signature="e#0#34#0" expanded="true" />
+            <element signature="e#0#24#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/block.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="61" column="22" selection-start-line="61" selection-start-column="17" selection-end-line="61" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/raft.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="362" column="41" selection-start-line="362" selection-start-column="41" selection-end-line="362" selection-end-column="41" />
+        <state relative-caret-position="269">
+          <caret line="591" column="60" selection-start-line="591" selection-start-column="60" selection-end-line="591" selection-end-column="60" />
           <folding>
             <element signature="e#21#45#0" expanded="true" />
           </folding>

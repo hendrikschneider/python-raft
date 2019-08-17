@@ -151,7 +151,7 @@ class RaftServer(object):
 
     def heartbeat_timed_out(self):
         return (
-                       datetime.now() - self._last_heartbeat).total_seconds() > self.HEARTBEAT_INTERVAL * 1.5
+                                      datetime.now() - self._last_heartbeat).total_seconds() > self.HEARTBEAT_INTERVAL * 1.5
 
     async def start_server(self):
         """
@@ -229,7 +229,7 @@ class RaftServer(object):
                 if node not in self._connections_to_servers and node not in self.node_connections:
                     await self.connect_to_server("ws://{}".format(node), self.client_recv_handler)
             for control_channel in self.control_channels:
-                # await self.connect_to_server("ws://{}".format(control_channel), self.control_recv_handler)
+                #await self.connect_to_server("ws://{}".format(control_channel), self.control_recv_handler)
                 if self.ws_control_channel is None:
                     self.ws_control_channel = True
                     await self.connect_to_server("ws://{}".format(control_channel), self.control_recv_handler)
@@ -301,8 +301,8 @@ class RaftServer(object):
         :param message_uuid:
         :return:
         """
-        self.confirmed_commits[self._currentTerm] = {'confirmations': set(),
-                                                     'data': self.blockchain.last_block().pending_messages[0]}
+        self.confirmed_commits[self._currentTerm] = set()
+        print(json.dumps(self.blockchain.last_block(), ensure_ascii=False, cls=MyJSONEncoder))
         await self.broadcast_to_clients({
             "type": "commit",
             "data": json.dumps(self.blockchain.last_block(), ensure_ascii=False, cls=MyJSONEncoder),
@@ -323,6 +323,14 @@ class RaftServer(object):
                 await ws.send(json.dumps(message))
             except Exception as e:
                 logger.error("Error while sending to client: {}".format(e))
+
+        # Send to raft nodes that this instance is connected to as a server
+        for k, connection in self._connections_to_servers.items():
+            try:
+                await connection.send(json.dumps(message))
+            except Exception as e:
+                print(self._connections_to_servers)
+                logger.error("Error while sending to server {}: {}".format(connection, e))
 
     async def handle_message_exchange(self, message, websocket):
         """
@@ -477,6 +485,7 @@ class RaftServer(object):
             update_message = {**message}
             update_message['type'] = 'message_broadcast'
 
+            print("broadcast message")
             await self.broadcast_to_clients(update_message)
 
         message_uuid = message['uuid']
@@ -525,7 +534,7 @@ class RaftServer(object):
         """
         while not self._backlog.empty():
             message = self._backlog.get()
-            term = message.get('term')
+
             broadcasted_message = json.loads(self.messages_to_save[message['uuid']]['data'])
             data = json.loads(message['data'])
             message_integrity = broadcasted_message == data
@@ -535,10 +544,10 @@ class RaftServer(object):
                 new_block = Block(**data)
                 self.blockchain.add_block(new_block)
                 self.blockchain.save()
-                await self.broadcast_to_clients({
-                    'type': 'client_commit_confirm',
-                    'source_term': term
-                })
+                #await self.broadcast_to_clients({
+                #    'type': 'client_commit_confirm',
+                #    'source_term': term
+                #})
             else:
                 await self.start_election()
 
@@ -569,27 +578,14 @@ class RaftServer(object):
         if self._state == self.STATE_LEADER:
             try:
                 term = message['source_term']
-                self.confirmed_commits[term]['confirmations'].add(self.get_websocket_identifier(websocket))
-                if len(self.confirmed_commits[term]['confirmations']) == len(self.raft_nodes):
+                print(self.confirmed_commits)
+                self.confirmed_commits[term].add(self.get_websocket_identifier(websocket))
+                if len(self.confirmed_commits[term]) == len(self.raft_nodes):
                     # send confirm to control channel
-
-                    data = json.dumps(self.confirmed_commits[term]['data'], ensure_ascii=False, cls=MyJSONEncoder)
-                    del self.confirmed_commits[term]
-                    await self.broadcast_to_control_connections({
-                        'type': 'commit_confirm',
-                        'data': data
-                    })
+                    # del self.confirmed_commits[term]
+                    print("send confirmation to control")
             except Exception as e:
                 print("Error", e)
-
-    async def on_commit_confirm(self, message, websocket):
-        """
-        Forward confirmation message to all connectec control connections
-        :param message:
-        :param websocket:
-        :return:
-        """
-        await self.broadcast_to_control_connections(message)
 
     def get_leader(self, ):
         """
@@ -614,15 +610,15 @@ class RaftServer(object):
         return leader
 
     async def broadcast_to_control_connections(self, message):
-        """
-        Broadcast a message to all connected control connections.
-        """
-        # Send to raft nodes that this instance is connected to as a client
-        for k, ws in self._connections_to_servers.items():
-            try:
-                await ws.send(json.dumps(message))
-            except Exception as e:
-                logger.error("Error while sending to control connection: {}".format(e))
+            """
+            Broadcast a message to all connected control connections.
+            """
+            # Send to raft nodes that this instance is connected to as a client
+            for k, ws in self._connections_to_servers.items():
+                try:
+                    await ws.send(json.dumps(message))
+                except Exception as e:
+                    logger.error("Error while sending to control connection: {}".format(e))
 
 
 nodes = [
