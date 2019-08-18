@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed346da0-0aec-4d9c-a6c3-f3a44d56773a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/raft.py" beforeDir="false" afterPath="$PROJECT_DIR$/raft.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/transactions.py" beforeDir="false" afterPath="$PROJECT_DIR$/transactions.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,8 +15,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/raft.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+            <state relative-caret-position="449">
+              <caret line="619" column="33" selection-start-line="619" selection-start-column="27" selection-end-line="619" selection-end-column="33" />
+              <folding>
+                <element signature="e#21#45#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -71,7 +72,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/blockchain.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="179">
+            <state relative-caret-position="-1036">
               <caret line="73" column="22" selection-start-line="73" selection-start-column="17" selection-end-line="73" selection-end-column="22" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
@@ -128,8 +129,8 @@
       <find>sync_las</find>
       <find>confirmed_commits</find>
       <find>def sync_last</find>
-      <find>valid</find>
       <find>cls=</find>
+      <find>valid</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -224,19 +225,19 @@
       <workItem from="1563614612370" duration="1938000" />
       <workItem from="1565804546173" duration="8228000" />
       <workItem from="1565860313199" duration="15641000" />
-      <workItem from="1565976221103" duration="24084000" />
+      <workItem from="1565976221103" duration="27680000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="49891000" />
+    <option name="totallyTimeSpent" value="53487000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="45" y="25" width="1875" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22963367" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49919486" visible="true" weight="0.22963367" />
+      <window_info id="Structure" order="1" sideWeight="0.50080514" side_tool="true" visible="true" weight="0.22963367" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -250,7 +251,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49972662" weight="0.32937366" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.50027335" side_tool="true" visible="true" weight="0.32937366" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.50027335" side_tool="true" visible="true" weight="0.32937366" />
       <window_info anchor="bottom" id="Python Console" order="12" sideWeight="0.49863315" weight="0.32937366" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -281,16 +282,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="179">
           <caret line="459" column="8" selection-start-line="459" selection-start-column="8" selection-end-line="459" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/blockchain.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="73" column="22" selection-start-line="73" selection-start-column="17" selection-end-line="73" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -384,10 +375,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/blockchain.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1036">
+          <caret line="73" column="22" selection-start-line="73" selection-start-column="17" selection-end-line="73" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/raft.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+        <state relative-caret-position="449">
+          <caret line="619" column="33" selection-start-line="619" selection-start-column="27" selection-end-line="619" selection-end-column="33" />
+          <folding>
+            <element signature="e#21#45#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

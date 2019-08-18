@@ -617,6 +617,7 @@ class RaftServer(object):
         Broadcast a message to all connected control connections.
         """
         # Send to raft nodes that this instance is connected to as a client
+        message['type'] = 'commit_confirm'
         for k, ws in self._connections_to_servers.items():
             try:
                 await ws.send(json.dumps(message))
